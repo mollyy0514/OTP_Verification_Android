@@ -1,4 +1,4 @@
-package com.example.userb;
+package com.example.servera;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -48,27 +48,17 @@ public class SMSContent extends ContentObserver {
             assert uri != null;
             if ("content://sms/raw".equals(uri.toString())) {
                 //取得動態簡訊內容
-                // TODO(optional): only read the OTP code that sent from the server
+
                 int smsBodyColumn = cursor.getColumnIndex("body");
-                String messageBody = cursor.getString(smsBodyColumn);
-                String code = "";
-                if (messageBody.startsWith("Your verification code is:")) {
-                    code = getDynamicCode(cursor.getString(smsBodyColumn));
-                    wait(1500);
-                    callback.callback(code);
-                }
-                else if (messageBody.equals("valid")) {
-                    callback.callback("valid");
-                }
-                else if (messageBody.equals("Wrong Verification Code")) {
-                    callback.callback("Wrong Verification Code");
-                }
+                String info = cursor.getString(smsBodyColumn);
+                wait(1500);
+                callback.callback(info);
                 cursor.close();
             }
         }
     }
     /**驗證簡訊內容*/
-    public String getDynamicCode(String str) {
+    public String getDynamicInfo(String str) {
         //檢測簡訊內容，以正規表達式抓出數字
         Pattern continuousNumberPattern = Pattern.compile("[0-9\\.]");
         Matcher m = continuousNumberPattern.matcher(str);
@@ -89,6 +79,6 @@ public class SMSContent extends ContentObserver {
         }
     }
     public interface OnCallback{
-        void callback(String code);
+        void callback(String info);
     }
 }

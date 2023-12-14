@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -36,6 +37,18 @@ public class SecondActivity extends AppCompatActivity {
             public void callback(String code) {
                 pinView.setText(code);
                 receivedCode = code;
+                if (!isFourDigitNumber(code)) {
+                    if (code == "valid") {
+                        Intent intent = new Intent(SecondActivity.this, ThirdActivity.class);
+                        intent.putExtra("LOGIN_STATUS", "Login Successfully!");
+                        startActivity(intent);
+                    }
+                    else if (code.equals("Wrong Verification Code")) {
+                        startActivity(new Intent(SecondActivity.this, MainActivity.class));
+                        // Close SecondActivity
+                        finish();
+                    }
+                }
             }
         });
         this.getContentResolver().registerContentObserver(Uri.parse("content://sms/")
@@ -54,7 +67,7 @@ public class SecondActivity extends AppCompatActivity {
 
     private void sendCodeToServer() {
         String phoneNumber = "+1 555-123-4567"; // Replace with the actual phone number of user1
-        String message = "Your verification code is: " + receivedCode;
+        String message = receivedCode;
 
         // Check and request SMS permission
         if (ContextCompat.checkSelfPermission(
@@ -87,5 +100,9 @@ public class SecondActivity extends AppCompatActivity {
     public void onSendCodeButtonClick(View view) {
         // Call the function to send the code when the button is clicked
         sendCodeToServer();
+    }
+
+    private boolean isFourDigitNumber(String input) {
+        return input.matches("\\d{4}");
     }
 }
