@@ -5,22 +5,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 // TODO: add database.json
 // TODO: check whether the user info exist, if exists, trigger RandomNumberGenerator(), and send it to the user phone number
@@ -72,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 receivedInfo = info;
                 if (info.contains(",")) {
                     // SMS format: name + "," + password
-                    handleRegistrationMessage(info);
+                    handleLoginMessage(info);
                 } else if (isFourDigitNumber(info)) {
                     // SMS format: receivedCode
                     handleVerificationMessage(info);
@@ -83,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 , true, content);
     }
 
-    private void handleRegistrationMessage(String messageBody) {
+    private void handleLoginMessage(String messageBody) {
         // Extract name and password from the message body
         String[] credentials = messageBody.split(",");
         if (credentials.length == 2) {
