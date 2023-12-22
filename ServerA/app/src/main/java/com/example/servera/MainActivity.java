@@ -78,27 +78,31 @@ public class MainActivity extends AppCompatActivity {
     private void handleLoginMessage(String messageBody) {
         // Extract name and password from the message body
         String[] credentials = messageBody.split(",");
-        if (credentials.length == 2) {
+        if (credentials.length == 3) {
             String name = credentials[0].trim();
             String password = credentials[1].trim();
+            String time = credentials[2].trim();
 
             // Update TextViews with name and password
             TextView nameTextView = findViewById(R.id.nameTextView);
             TextView passwordTextView = findViewById(R.id.passwordTextView);
+            TextView timeTextView = findViewById(R.id.timeTextView);
 
             nameTextView.setText("Name: " + name);
             passwordTextView.setText("Password: " + password);
+            timeTextView.setText("Time: " + time);
 
             // Check the name and password against the database
             phoneNumber = databaseHelper.getPhoneNumber(name, password);
-
             if (phoneNumber != null) {
                 // Valid registration, send a verification code to the user
+                databaseHelper.updatePatientTime(name, time);
                 sentCode = generateRandomCode();
                 sendVerificationCode(sentCode);
                 TextView codeTextView = findViewById(R.id.codeTextView);
                 codeTextView.setText("Verification Code: " + sentCode);
-            } else {
+            }
+            else {
                 // Invalid registration, handle accordingly
                 // For example, display an error message or take other actions
                 // ...
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendValid() {
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNumber, null, "valid", null, null);
+        smsManager.sendTextMessage(phoneNumber, null, "Appointment Successful", null, null);
         Toast.makeText(this, "Send Valid", Toast.LENGTH_SHORT).show();
     }
 

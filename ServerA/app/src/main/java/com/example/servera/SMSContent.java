@@ -36,8 +36,8 @@ public class SMSContent extends ContentObserver {
         //確認權限後，設置讀取SMS箱
         if (ContextCompat.checkSelfPermission(context, "android.permission.READ_SMS")
                 == PackageManager.PERMISSION_GRANTED) {
-            cursor = resolver.query(Uri.parse("content://sms"), null, null
-                    , null, "_id desc");
+            cursor = resolver.query(Uri.parse("content://sms"), null, null,
+                    null, "_id desc");
         }
         if (cursor != null && cursor.getCount() > 0) {
             //讀取簡訊後，並將之設為已讀
@@ -47,8 +47,7 @@ public class SMSContent extends ContentObserver {
 
             assert uri != null;
             if ("content://sms/raw".equals(uri.toString())) {
-                //取得動態簡訊內容
-
+                // get sms message
                 int smsBodyColumn = cursor.getColumnIndex("body");
                 String info = cursor.getString(smsBodyColumn);
                 wait(1500);

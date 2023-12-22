@@ -9,22 +9,33 @@
 
 
     <EditText
-        android:id="@+id/idEditText"
+        android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
+        android:hint="Enter Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/idEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameEditText"
+        android:layout_marginTop="188dp"
         android:hint="Enter ID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/timeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/idEditText"
-        android:layout_marginTop="188dp"
-        android:hint="Enter Password"
+        android:layout_marginTop="260dp"
+        android:hint="Enter Time: MM-DD-HH"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,8 +44,8 @@
         android:id="@+id/sendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/passwordEditText"
-        android:layout_marginTop="260dp"
+        android:layout_below="@id/idEditText"
+        android:layout_marginTop="340dp"
         android:text="Send Info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

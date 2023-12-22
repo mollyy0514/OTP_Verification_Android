@@ -22,8 +22,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_SEND_SMS = 1;
+    private EditText nameEditText;
     private EditText idEditText;
-    private EditText passwordEditText;
+    private EditText timeEditText;
     private Button sendButton;
 
     @Override
@@ -32,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // TODO: if clicks SendButton, it will send the typed text to server(+1 555-123-4567)
+        nameEditText = findViewById(R.id.nameEditText);
         idEditText = findViewById(R.id.idEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
+        timeEditText = findViewById(R.id.timeEditText);
         sendButton = findViewById(R.id.sendButton);
 
         // Request SMS permission if not granted
@@ -48,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = idEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String name = nameEditText.getText().toString();
+                String identity = idEditText.getText().toString();
+                String time = timeEditText.getText().toString();
 
-                if (!id.isEmpty() && !password.isEmpty()) {
-                    sendSMS(id, password);
+                if (!name.isEmpty() && !identity.isEmpty() && !time.isEmpty()) {
+                    sendSMS(name, identity, time);
                 } else {
-                    Toast.makeText(MainActivity.this, "Please enter id and password",
+                    Toast.makeText(MainActivity.this, "Please enter name, id, and time",
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -66,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Send SMS method
-    private void sendSMS(String id, String password) {
+    private void sendSMS(String id, String password, String time) {
         String phoneNumber = "+1 555-123-4567";
         SmsManager smsManager = SmsManager.getDefault();
-        String fullText = id + ',' + password;
+        String fullText = id + ',' + password + ',' + time;
         smsManager.sendTextMessage(phoneNumber, null, fullText, null, null);
 
         Toast.makeText(this, "Request Sent", Toast.LENGTH_SHORT).show();

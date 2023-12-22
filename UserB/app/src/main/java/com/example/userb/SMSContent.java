@@ -57,22 +57,22 @@ public class SMSContent extends ContentObserver {
                     wait(1500);
                     callback.callback(code);
                 }
-                else if (messageBody.equals("valid")) {
+                else if (messageBody.equals("Appointment Successful")) {
                     callback.callback("valid");
                 }
                 else if (messageBody.equals("Wrong Verification Code")) {
-                    callback.callback("Wrong Verification Code");
+                    callback.callback("invalid");
                 }
                 cursor.close();
             }
         }
     }
-    /**驗證簡訊內容*/
+    /** read verification code */
     public String getDynamicCode(String str) {
-        //檢測簡訊內容，以正規表達式抓出數字
+        // catch the numeric part of the message
         Pattern continuousNumberPattern = Pattern.compile("[0-9\\.]");
         Matcher m = continuousNumberPattern.matcher(str);
-        //填入數字
+        // fill in numbers
         StringBuilder stringBuilder = new StringBuilder();
         while (m.find()) {
             stringBuilder.append(m.group());
@@ -80,7 +80,7 @@ public class SMSContent extends ContentObserver {
         return stringBuilder.toString();
     }
 
-    /**收到簡訊後的延遲時間*/
+    /** delay time after receiving the text message */
     private void wait(int ms) {
         try {
             TimeUnit.MILLISECONDS.sleep(ms);

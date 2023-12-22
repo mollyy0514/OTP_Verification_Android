@@ -38,12 +38,12 @@ public class SecondActivity extends AppCompatActivity {
                 pinView.setText(code);
                 receivedCode = code;
                 if (!isFourDigitNumber(code)) {
-                    if (code == "valid") {
+                    if (code.equals("valid")) {
                         Intent intent = new Intent(SecondActivity.this, ThirdActivity.class);
-                        intent.putExtra("LOGIN_STATUS", "Login Successfully!");
+                        intent.putExtra("LOGIN_STATUS", "Appointment Successful!");
                         startActivity(intent);
                     }
-                    else if (code.equals("Wrong Verification Code")) {
+                    else if (code.equals("invalid")) {
                         startActivity(new Intent(SecondActivity.this, MainActivity.class));
                         // Close SecondActivity
                         finish();
